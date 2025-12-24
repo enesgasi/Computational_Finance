@@ -1,0 +1,98 @@
+XRP_USDT_2023;
+Price1 = data1;   % XRP
+
+ETH_USDT_2023;
+Price2 = data1;   % ETH
+
+%% Normalizasyon (ilk değere bölme)
+Price1_n = Price1 ./ Price1(1);
+Price2_n = Price2 ./ Price2(1);
+
+ratio = Price1 ./ Price2;
+
+%% Z-score
+mu    = mean(ratio);
+sigma = std(ratio);
+z = (ratio - mu) ./ sigma;
+
+%% Subplots
+figure
+
+% 1) Normalize fiyatlar
+subplot(3,1,1)
+plot(Price2_n, 'b'); hold on
+plot(Price1_n, 'g')
+title('Normalized Price Comparison (ETH vs XRP)')
+ylabel('Normalized Price')
+legend('ETH', 'XRP')
+grid on
+
+% 2) Ratio
+subplot(3,1,2)
+plot(ratio, 'k')
+title('XRP / ETH Price Ratio')
+ylabel('Ratio')
+grid on
+
+% 3) Z-score
+subplot(3,1,3)
+plot(z, 'y'); hold on
+yline(1,  'r--')
+yline(-1, 'r--')
+yline(0,  'k-')
+title('Z-Score of XRP / ETH Ratio')
+xlabel('Time')
+ylabel('Z')
+grid on
+
+entry_th = 1;
+exit_th  = 0.5;
+
+entry = [];
+exit  = [];
+
+in_position = 0;
+
+for t = 1:length(z)
+
+    % ENTRY
+    if in_position == 0 && abs(z(t)) > entry_th
+        entry = [entry; t];
+        in_position = 1;
+    end
+
+    % EXIT
+    if in_position == 1 && abs(z(t)) < exit_th
+        exit = [exit; t];
+        in_position = 0;
+    end
+
+end
+
+% açık pozisyon varsa son exit'i at
+n = min(length(entry), length(exit));
+entry = entry(1:n);
+exit  = exit(1:n);
+
+
+figure
+plot(z,'b','LineWidth',1.2)
+hold on
+grid on
+
+% Threshold çizgileri
+yline(1,'r--'); 
+yline(-1,'r--');
+yline(0.5,'g--'); 
+yline(-0.5,'g--');
+yline(0,'k-');
+
+% Entry ve Exit noktaları
+plot(entry, z(entry), 'ro', 'MarkerSize',8, 'LineWidth',2)
+plot(exit,  z(exit),  '^', 'MarkerSize',8, 'LineWidth',2)
+
+legend('Z-score','+1','-1','+0.5','-0.5','0','Entry','Exit','Location','best')
+title('Entry–Exit Days Based on Z-Score')
+xlabel('Day')
+ylabel('Z')
+
