@@ -1,0 +1,59 @@
+close all; clear all; clf;
+BTC_USDT_year
+price1 = data1./data1(1);
+
+BNB_USDT_year
+price2 = data1./data1(1);
+
+ETH_USDT_year
+price3 = data1./data1(1);
+
+XRP_USDT_year
+price4 = data1./data1(1);
+
+plot(price1)
+hold on 
+plot(price2)
+hold on
+plot(price3)
+hold on
+plot(price4)
+
+legend('BTC', 'BNB', 'ETH', 'XRP', location = 'best')
+
+margin = 0.10;
+price = [price1, price2, price3, price4];
+
+%amount1 = 100;
+%amount2 = 100;
+amount(1:4) = 100;
+t_f = 1/1000;
+
+
+for i = 1:365 %length(price1)
+    
+    for k = 1:4
+        value(k) = price(i, k) * amount(k);
+
+    end    
+    avg_value = mean(value);
+
+    if max(value) > (avg_value) * (1+ margin) || min(value) < (avg_value) * (1+ margin)
+        for k=1:4
+            if value(k) > avg_value
+                difference = value(k) - avg_value;
+                amount(k) = amount(k) - ((1 + t_f) * difference / price(i, k));
+            else
+                difference = avg_value - value(k);
+                amount(k) = amount(k) - ((1 - t_f) * difference / price(i, k));
+            end
+        end    
+    end    
+end
+
+(sum(value)-length(value*100)/length(value))
+(value1+value2-200)/2;
+
+
+
+
