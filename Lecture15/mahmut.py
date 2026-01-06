@@ -12,7 +12,7 @@ for i in range(1000):
     x = btceur.iloc[0,i]
     y = btcusdt.iloc[0,i]
     z = eurusdt.iloc[0,i]
-    ratio = (x * z) / y
+    ratio = (x * z) / y #burası çok önemli, asıl olay burda.
 
     if ratio > margin:
         print(f"Arbitrage opportunity at index {i}:")
