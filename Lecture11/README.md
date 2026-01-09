@@ -81,7 +81,7 @@ for i = 1:365  % Her gün için
             else
                 % Eksik olan varlığı al
                 difference = avg_value - value(k);
-                amount(k) = amount(k) - ((1 - t_f) * difference / price(i, k));
+                amount(k) = amount(k) + ((1 - t_f) * difference / price(i, k));
             end
         end    
     end    
