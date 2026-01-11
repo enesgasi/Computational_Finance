@@ -45,7 +45,7 @@ for i = 1:365 %length(price1)
                 amount(k) = amount(k) - ((1 + t_f) * difference / price(i, k));
             else
                 difference = avg_value - value(k);
-                amount(k) = amount(k) - ((1 - t_f) * difference / price(i, k));
+                amount(k) = amount(k) + ((1 - t_f) * difference / price(i, k));
             end
         end    
     end    
