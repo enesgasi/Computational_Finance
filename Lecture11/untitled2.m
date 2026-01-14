@@ -38,7 +38,7 @@ for i = 1:365 %length(price1)
     end    
     avg_value = mean(value);
 
-    if max(value) > (avg_value) * (1+ margin) || min(value) < (avg_value) * (1+ margin)
+    if max(value) > (avg_value) * (1+ margin) || min(value) < (avg_value) * (1 - margin)
         for k=1:4
             if value(k) > avg_value
                 difference = value(k) - avg_value;
