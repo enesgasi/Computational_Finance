@@ -71,7 +71,7 @@ for i = 1:365  % Her gün için
     avg_value = mean(value);  % Ortalama değer
 
     % Eğer herhangi bir varlık ortalamadan %10+ sapma gösteriyorsa
-    if max(value) > (avg_value)*(1+margin) || min(value) < (avg_value)*(1+margin)
+    if max(value) > (avg_value)*(1+margin) || min(value) < (avg_value)*(1-margin)
         
         for k=1:4
             if value(k) > avg_value
