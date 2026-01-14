@@ -72,7 +72,7 @@ for i=1:length(price_ratio)
     end
     if(price_ratio(i)<(1-2*t_f) & balance2 > 0)
     i
-    display('Sell BTC and Buy WBTC')
+    display('Sell WBTC and Buy BTC')
     balance1 =(balance2/price_ratio(i))*(1-2*t_f);
     balance2 = 0;
     end
